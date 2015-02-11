@@ -50,5 +50,6 @@ group :test do
   gem 'guard-minitest',     '2.3.1'
 end
 
+gem 'bootstrap-sass',       '3.2.0.0'
 gem 'figaro'
 
