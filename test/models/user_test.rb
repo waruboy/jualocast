@@ -16,6 +16,22 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "username validation should accept valid usernames" do
+    valid_usernames = %w[taufiqm example lala dodo1]
+    valid_usernames.each do |valid_username|
+      @user.username = valid_username
+      assert @user.valid?, "#{valid_username.inspect} should be valid"
+    end
+  end
+
+  test "username validation should reject invalid usernames" do
+    invalid_usernames = ["a aa", "wawww@@#"]
+    invalid_usernames.each do |invalid_username|
+      @user.username = invalid_username
+      assert_not @user.valid?, "#{invalid_username.inspect} should be invalid"
+    end
+  end
+
   test "usernames should be unique" do
     duplicate_user = User.new(username: @user.username.upcase, email: "someone@example.com")
     @user.save
@@ -28,6 +44,8 @@ class UserTest < ActiveSupport::TestCase
     @user.save
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
+
+
 
   test "email should be present" do
     @user.email = "    "
