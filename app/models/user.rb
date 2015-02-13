@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :feeds
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   VALID_USERNAME_REGEX = /\A[a-z0-9]+\z/i
 
