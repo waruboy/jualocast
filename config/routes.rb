@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  get 'signup'  => 'users#new'
-  get ':username', to: 'users#show', as: :user 
+  get 'sessions/new'
+
+  root                   to: 'sessions#new'
+  get     'sys/signup',  to: 'users#new',          as: :signup
+  get     'sys/login',   to: 'sessions#new',       as: :login
+  post    'sys/login',   to: 'sessions#create'
+  delete  'sys/logout',  to: 'sessions#destroy',   as: :logout
+  get     ':username',   to: 'users#show',         as: :user 
+
+
   resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
