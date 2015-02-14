@@ -1,14 +1,27 @@
-<p id="notice"><%= notice %></p>
+<div class="col-md-7 col-md-offset-2">
 
-<p>
-  <strong>Name:</strong>
-  <%= @feed.name %>
-</p>
+  <h1>
+    <%= @feed.name %>
+  </h1>
+  <p>
+    <%= @feed.description ||= "No description" %>
+  </p>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @feed.slug %>
-</p>
+  <%= link_to 'Back', user_path(@user) %>
 
-<%= link_to 'Edit', edit_feed_path(@feed) %> |
-<%= link_to 'Back', feeds_path %>
+</div>
+
+
+
+
+
+<div class="col-md-3">
+  <%= image_tag "rss_icon.png" %><br>
+  <%= "#{request.original_url}.rss" %><br>
+  <br>
+  <% if current_user? @user %>
+  <p> Send new episodes to:<br>
+    <%= @feed.slug%>@app 
+  </p>
+  <% end %>
+</div>

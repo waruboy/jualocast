@@ -1,17 +1,20 @@
 Rails.application.routes.draw do
-  resources :feeds
+  
 
   get 'sessions/new'
 
   root                   to: 'sessions#new'
-  get     'sys/signup',  to: 'users#new',          as: :signup
-  get     'sys/login',   to: 'sessions#new',       as: :login
-  post    'sys/login',   to: 'sessions#create'
-  delete  'sys/logout',  to: 'sessions#destroy',   as: :logout
-  get     ':username',   to: 'users#show',         as: :user 
+  get     'sys/signup',  to: 'users#new',             as: :signup
+  get     'sys/login',   to: 'sessions#new',          as: :login
+  post    'sys/login',   to: 'sessions#create',       as: nil
+  delete  'sys/logout',  to: 'sessions#destroy',      as: :logout
+  get     ':username',   to: 'users#show',            as: :user 
+  get     ':username/new-feed',   to: 'feeds#new',    as: :new_feed
+  get     ':username/:feedslug',  to: 'feeds#show',   as: :feed  
 
 
   resources :users
+  resources :feeds
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

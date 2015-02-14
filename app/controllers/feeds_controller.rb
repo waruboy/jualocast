@@ -1,5 +1,7 @@
 class FeedsController < ApplicationController
   before_action :set_feed, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:new, :edit, :update, :destroy]
+  before_action :correct_user, only: [:new, :edit, :update, :destroy]
 
   # GET /feeds
   # GET /feeds.json
@@ -10,6 +12,9 @@ class FeedsController < ApplicationController
   # GET /feeds/1
   # GET /feeds/1.json
   def show
+    unless @feed
+      render text: "Feed not found"
+    end
   end
 
   # GET /feeds/new
@@ -25,16 +30,15 @@ class FeedsController < ApplicationController
   # POST /feeds.json
   def create
     @feed = Feed.new(feed_params)
+    @feed.user = current_user
 
-    respond_to do |format|
-      if @feed.save
-        format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
-        format.json { render :show, status: :created, location: @feed }
-      else
-        format.html { render :new }
-        format.json { render json: @feed.errors, status: :unprocessable_entity }
-      end
+
+    if @feed.save
+      redirect_to feed_path(@feed.user, @feed), notice: 'Feed was successfully created.'
+    else
+      render :new
     end
+  
   end
 
   # PATCH/PUT /feeds/1
@@ -64,11 +68,12 @@ class FeedsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_feed
-      @feed = Feed.find(params[:id])
+      @user = User.find_by_username(params[:username])
+      @feed = Feed.where(user: @user).find_by_slug(params[:feedslug])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def feed_params
-      params.require(:feed).permit(:name, :slug)
+      params.require(:feed).permit(:name, :description)
     end
 end

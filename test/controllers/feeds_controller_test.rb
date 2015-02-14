@@ -1,9 +1,31 @@
 require 'test_helper'
 
 class FeedsControllerTest < ActionController::TestCase
-  # setup do
+  setup do
+    @user = users(:michael)
+    @wrong_user = users(:barrack)
   #   @feed = feeds(:one)
-  # end
+  end
+
+  test "should redirect new to login when not logged in" do
+    get :new, username: @user.username
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+
+  test "should redirect new to root when logged in as wrong user" do
+    log_in_as @wrong_user
+    get :new, username: @user.username
+    assert is_logged_in?
+    assert_not flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "should get new when logged in as correct user" do
+    log_in_as @user
+    get :new, username: @user.username
+    assert_response :success
+  end
 
   # test "should get index" do
   #   get :index

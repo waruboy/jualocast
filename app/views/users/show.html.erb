@@ -1,1 +1,21 @@
-<%= @user.username %>, <%= @user.email %>
+<div class="col-md-8 col-md-offset-2">
+
+<h1> <%= @user.username %>'s Feed</h1>
+
+<% if @feeds.empty? %>
+<p> No feed yet </p>
+<% end %>
+
+<% @feeds.each do |feed|%>
+<h2> <%= link_to feed.name, feed_path(@user, feed) %> </h2>
+<p> <%= feed.description ||= "No description" %>
+<% end %>
+
+
+  
+<% if current_user? @user %>
+  <%= button_to "New Podcast", new_feed_path, method: :get, class: "btn"%>
+
+<% end %>
+
+</div>
