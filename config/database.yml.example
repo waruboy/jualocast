@@ -1,0 +1,14 @@
+development:
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  database: jualocast_development
+  pool: 5
+  username: mr_potato
+  password: supersecurepassword
+
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
